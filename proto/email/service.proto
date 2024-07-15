@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package email;
+
+import "proto/email/type/otp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/dwprz/prasorganic-proto/protogen/email";
+
+service EmailService {
+    rpc SendOtp(OtpRequest) returns (google.protobuf.Empty) {}
+}

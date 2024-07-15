@@ -5,6 +5,6 @@ package email;
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/email";
 
 message OtpRequest {
-    string email = 1 [json_name = "email"];
-    string otp = 2 [json_name = "otp"];
+    string email = 1;
+    string otp = 2;
 }

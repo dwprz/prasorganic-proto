@@ -5,6 +5,6 @@ package user;
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
 
 message RegisterRequest {
-    string email = 1 [json_name = "email"];
+    string email = 1;
     string full_name = 2 [json_name = "full_name"];
 }

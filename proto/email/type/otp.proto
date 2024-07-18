@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package email;
+package email.type;
 
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/email";
 

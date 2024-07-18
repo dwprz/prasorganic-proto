@@ -3,10 +3,12 @@ syntax = "proto3";
 package user;
 
 import "proto/user/type/register_request.proto";
+import "proto/user/type/user.proto";
 import "google/protobuf/empty.proto";
 
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
 
 service UserService {
-    rpc Create(RegisterRequest) returns (google.protobuf.Empty) {}
+    rpc FindByEmail(user.type.Email) returns (user.type.User) {}
+    rpc Create(user.type.RegisterRequest) returns (google.protobuf.Empty) {}
 }

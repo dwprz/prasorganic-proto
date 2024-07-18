@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package user.type;
+
+import "proto/google/type/datetime.proto";
+
+option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
+
+message User {
+    uint32 user_id = 1 [json_name = "user_id"];
+    string email = 2;
+    string full_name = 3 [json_name = "full_name"];
+    string whatsapp = 4;
+    string photo_profile = 5 [json_name = "photo_profile"];
+    string password = 6;
+    string refresh_token = 7 [json_name = "refresh_token"];
+    google.type.DateTime created_at = 8 [json_name = "created_at"];
+    google.type.DateTime updated_at = 9 [json_name = "updated_at"];
+}

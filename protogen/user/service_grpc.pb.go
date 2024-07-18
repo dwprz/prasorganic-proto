@@ -28,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*User, error)
+	FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error)
 	Create(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -40,9 +40,9 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*User, error) {
+func (c *userServiceClient) FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(User)
+	out := new(FindUserResponse)
 	err := c.cc.Invoke(ctx, UserService_FindByEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (c *userServiceClient) Create(ctx context.Context, in *RegisterRequest, opt
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	FindByEmail(context.Context, *Email) (*User, error)
+	FindByEmail(context.Context, *Email) (*FindUserResponse, error)
 	Create(context.Context, *RegisterRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
@@ -73,7 +73,7 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) FindByEmail(context.Context, *Email) (*User, error) {
+func (UnimplementedUserServiceServer) FindByEmail(context.Context, *Email) (*FindUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindByEmail not implemented")
 }
 func (UnimplementedUserServiceServer) Create(context.Context, *RegisterRequest) (*emptypb.Empty, error) {

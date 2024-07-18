@@ -17,3 +17,8 @@ message User {
     google.type.DateTime created_at = 8 [json_name = "created_at"];
     google.type.DateTime updated_at = 9 [json_name = "updated_at"];
 }
+
+message FindUserResponse {
+    bool found = 1;
+    User user = 2;
+}

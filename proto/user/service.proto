@@ -9,6 +9,6 @@ import "google/protobuf/empty.proto";
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
 
 service UserService {
-    rpc FindByEmail(user.type.Email) returns (user.type.User) {}
+    rpc FindByEmail(user.type.Email) returns (user.type.FindUserResponse) {}
     rpc Create(user.type.RegisterRequest) returns (google.protobuf.Empty) {}
 }

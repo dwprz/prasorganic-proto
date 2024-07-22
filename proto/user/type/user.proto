@@ -16,6 +16,7 @@ message User {
     string refresh_token = 7 [json_name = "refresh_token"];
     google.type.DateTime created_at = 8 [json_name = "created_at"];
     google.type.DateTime updated_at = 9 [json_name = "updated_at"];
+    string role = 10;
 }
 
 message FindUserResponse {

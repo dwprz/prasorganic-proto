@@ -20,6 +20,5 @@ message User {
 }
 
 message FindUserResponse {
-    bool found = 1;
-    User user = 2;
+    User data = 1;
 }

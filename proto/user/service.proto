@@ -12,7 +12,7 @@ option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
 message CreateRequest {
     oneof data {
         user.type.RegisterRequest Register = 1;
-        user.type.LoginWithGoogleCallback loginWithGoogle = 2;
+        user.type.LoginWithGoogleRequest loginWithGoogle = 2;
     }
 }
 

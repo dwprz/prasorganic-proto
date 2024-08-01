@@ -9,7 +9,8 @@ message Email {
 }
 
 message RegisterRequest {
-    string email = 1;
-    string full_name = 2 [json_name = "full_name"];
-    string password = 3;
+    string user_id = 1 [json_name = "user_id"];
+    string email = 2;
+    string full_name = 3 [json_name = "full_name"];
+    string password = 4;
 }

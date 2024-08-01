@@ -5,7 +5,6 @@ go 1.21.3
 require (
 	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.34.2
-	google.golang.org/genproto v0.0.0-20240711142825-46eb208f015d
 )
 
 require (

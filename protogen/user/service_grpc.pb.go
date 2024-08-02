@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion8
 const (
 	UserService_FindByEmail_FullMethodName = "/user.UserService/FindByEmail"
 	UserService_Create_FullMethodName      = "/user.UserService/Create"
+	UserService_Upsert_FullMethodName      = "/user.UserService/Upsert"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -29,7 +30,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error)
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*FindUserResponse, error)
 }
 
 type userServiceClient struct {
@@ -50,10 +52,20 @@ func (c *userServiceClient) FindByEmail(ctx context.Context, in *Email, opts ...
 	return out, nil
 }
 
-func (c *userServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *userServiceClient) Create(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, UserService_Create_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*FindUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FindUserResponse)
+	err := c.cc.Invoke(ctx, UserService_Upsert_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +77,8 @@ func (c *userServiceClient) Create(ctx context.Context, in *CreateRequest, opts 
 // for forward compatibility
 type UserServiceServer interface {
 	FindByEmail(context.Context, *Email) (*FindUserResponse, error)
-	Create(context.Context, *CreateRequest) (*emptypb.Empty, error)
+	Create(context.Context, *RegisterRequest) (*emptypb.Empty, error)
+	Upsert(context.Context, *LoginWithGoogleRequest) (*FindUserResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -76,8 +89,11 @@ type UnimplementedUserServiceServer struct {
 func (UnimplementedUserServiceServer) FindByEmail(context.Context, *Email) (*FindUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindByEmail not implemented")
 }
-func (UnimplementedUserServiceServer) Create(context.Context, *CreateRequest) (*emptypb.Empty, error) {
+func (UnimplementedUserServiceServer) Create(context.Context, *RegisterRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (UnimplementedUserServiceServer) Upsert(context.Context, *LoginWithGoogleRequest) (*FindUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Upsert not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -111,7 +127,7 @@ func _UserService_FindByEmail_Handler(srv interface{}, ctx context.Context, dec 
 }
 
 func _UserService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+	in := new(RegisterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -123,7 +139,25 @@ func _UserService_Create_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: UserService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Create(ctx, req.(*CreateRequest))
+		return srv.(UserServiceServer).Create(ctx, req.(*RegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_Upsert_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginWithGoogleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).Upsert(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_Upsert_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).Upsert(ctx, req.(*LoginWithGoogleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -142,6 +176,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Create",
 			Handler:    _UserService_Create_Handler,
+		},
+		{
+			MethodName: "Upsert",
+			Handler:    _UserService_Upsert_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

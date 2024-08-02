@@ -9,14 +9,8 @@ import "google/protobuf/empty.proto";
 
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
 
-message CreateRequest {
-    oneof data {
-        user.type.RegisterRequest Register = 1;
-        user.type.LoginWithGoogleRequest loginWithGoogle = 2;
-    }
-}
-
 service UserService {
     rpc FindByEmail(user.type.Email) returns (user.type.FindUserResponse) {}
-    rpc Create(CreateRequest) returns (google.protobuf.Empty) {}
+    rpc Create(user.type.RegisterRequest) returns (google.protobuf.Empty) {}
+    rpc Upsert(user.type.LoginWithGoogleRequest) returns (user.type.FindUserResponse) {}
 }

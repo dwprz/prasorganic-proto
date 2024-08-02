@@ -31,7 +31,7 @@ const (
 type UserServiceClient interface {
 	FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error)
 	Create(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*FindUserResponse, error)
+	Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*User, error)
 }
 
 type userServiceClient struct {
@@ -62,9 +62,9 @@ func (c *userServiceClient) Create(ctx context.Context, in *RegisterRequest, opt
 	return out, nil
 }
 
-func (c *userServiceClient) Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*FindUserResponse, error) {
+func (c *userServiceClient) Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*User, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindUserResponse)
+	out := new(User)
 	err := c.cc.Invoke(ctx, UserService_Upsert_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -78,7 +78,7 @@ func (c *userServiceClient) Upsert(ctx context.Context, in *LoginWithGoogleReque
 type UserServiceServer interface {
 	FindByEmail(context.Context, *Email) (*FindUserResponse, error)
 	Create(context.Context, *RegisterRequest) (*emptypb.Empty, error)
-	Upsert(context.Context, *LoginWithGoogleRequest) (*FindUserResponse, error)
+	Upsert(context.Context, *LoginWithGoogleRequest) (*User, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -92,7 +92,7 @@ func (UnimplementedUserServiceServer) FindByEmail(context.Context, *Email) (*Fin
 func (UnimplementedUserServiceServer) Create(context.Context, *RegisterRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedUserServiceServer) Upsert(context.Context, *LoginWithGoogleRequest) (*FindUserResponse, error) {
+func (UnimplementedUserServiceServer) Upsert(context.Context, *LoginWithGoogleRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upsert not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}

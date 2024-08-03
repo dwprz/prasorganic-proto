@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package user.type;
+
+option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
+
+message RefreshToken {
+    string email = 1;
+    string token  = 2;
+}

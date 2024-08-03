@@ -20,9 +20,10 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	UserService_FindByEmail_FullMethodName = "/user.UserService/FindByEmail"
-	UserService_Create_FullMethodName      = "/user.UserService/Create"
-	UserService_Upsert_FullMethodName      = "/user.UserService/Upsert"
+	UserService_FindByEmail_FullMethodName     = "/user.UserService/FindByEmail"
+	UserService_Create_FullMethodName          = "/user.UserService/Create"
+	UserService_Upsert_FullMethodName          = "/user.UserService/Upsert"
+	UserService_AddRefreshToken_FullMethodName = "/user.UserService/AddRefreshToken"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -32,6 +33,7 @@ type UserServiceClient interface {
 	FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error)
 	Create(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*User, error)
+	AddRefreshToken(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type userServiceClient struct {
@@ -72,6 +74,16 @@ func (c *userServiceClient) Upsert(ctx context.Context, in *LoginWithGoogleReque
 	return out, nil
 }
 
+func (c *userServiceClient) AddRefreshToken(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, UserService_AddRefreshToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -79,6 +91,7 @@ type UserServiceServer interface {
 	FindByEmail(context.Context, *Email) (*FindUserResponse, error)
 	Create(context.Context, *RegisterRequest) (*emptypb.Empty, error)
 	Upsert(context.Context, *LoginWithGoogleRequest) (*User, error)
+	AddRefreshToken(context.Context, *RefreshToken) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -94,6 +107,9 @@ func (UnimplementedUserServiceServer) Create(context.Context, *RegisterRequest) 
 }
 func (UnimplementedUserServiceServer) Upsert(context.Context, *LoginWithGoogleRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upsert not implemented")
+}
+func (UnimplementedUserServiceServer) AddRefreshToken(context.Context, *RefreshToken) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddRefreshToken not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -162,6 +178,24 @@ func _UserService_Upsert_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_AddRefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddRefreshToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_AddRefreshToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddRefreshToken(ctx, req.(*RefreshToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +214,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Upsert",
 			Handler:    _UserService_Upsert_Handler,
+		},
+		{
+			MethodName: "AddRefreshToken",
+			Handler:    _UserService_AddRefreshToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

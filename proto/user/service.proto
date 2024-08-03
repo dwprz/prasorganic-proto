@@ -14,5 +14,5 @@ service UserService {
     rpc FindByEmail(user.type.Email) returns (user.type.FindUserResponse) {}
     rpc Create(user.type.RegisterRequest) returns (google.protobuf.Empty) {}
     rpc Upsert(user.type.LoginWithGoogleRequest) returns (user.type.User) {}
-    rpc AddRefreshToken(user.type.RefreshToken) returns (google.protobuf.Empty) {}
+    rpc UpdateRefreshToken(user.type.RefreshToken) returns (google.protobuf.Empty) {}
 }

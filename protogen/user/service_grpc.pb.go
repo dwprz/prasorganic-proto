@@ -20,22 +20,24 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	UserService_FindByEmail_FullMethodName        = "/user.UserService/FindByEmail"
-	UserService_Create_FullMethodName             = "/user.UserService/Create"
-	UserService_Upsert_FullMethodName             = "/user.UserService/Upsert"
-	UserService_UpdateRefreshToken_FullMethodName = "/user.UserService/UpdateRefreshToken"
-	UserService_FindByRefreshToken_FullMethodName = "/user.UserService/FindByRefreshToken"
+	UserService_Create_FullMethodName              = "/user.UserService/Create"
+	UserService_FindByEmail_FullMethodName         = "/user.UserService/FindByEmail"
+	UserService_FindByRefreshToken_FullMethodName  = "/user.UserService/FindByRefreshToken"
+	UserService_Upsert_FullMethodName              = "/user.UserService/Upsert"
+	UserService_AddRefreshToken_FullMethodName     = "/user.UserService/AddRefreshToken"
+	UserService_SetNullRefreshToken_FullMethodName = "/user.UserService/SetNullRefreshToken"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error)
 	Create(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*User, error)
-	UpdateRefreshToken(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error)
 	FindByRefreshToken(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*FindUserResponse, error)
+	Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*User, error)
+	AddRefreshToken(ctx context.Context, in *AddRefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SetNullRefreshToken(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type userServiceClient struct {
@@ -44,16 +46,6 @@ type userServiceClient struct {
 
 func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
-}
-
-func (c *userServiceClient) FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindUserResponse)
-	err := c.cc.Invoke(ctx, UserService_FindByEmail_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *userServiceClient) Create(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
@@ -66,20 +58,10 @@ func (c *userServiceClient) Create(ctx context.Context, in *RegisterRequest, opt
 	return out, nil
 }
 
-func (c *userServiceClient) Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*User, error) {
+func (c *userServiceClient) FindByEmail(ctx context.Context, in *Email, opts ...grpc.CallOption) (*FindUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(User)
-	err := c.cc.Invoke(ctx, UserService_Upsert_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) UpdateRefreshToken(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, UserService_UpdateRefreshToken_FullMethodName, in, out, cOpts...)
+	out := new(FindUserResponse)
+	err := c.cc.Invoke(ctx, UserService_FindByEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,15 +78,46 @@ func (c *userServiceClient) FindByRefreshToken(ctx context.Context, in *RefreshT
 	return out, nil
 }
 
+func (c *userServiceClient) Upsert(ctx context.Context, in *LoginWithGoogleRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_Upsert_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AddRefreshToken(ctx context.Context, in *AddRefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, UserService_AddRefreshToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) SetNullRefreshToken(ctx context.Context, in *RefreshToken, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, UserService_SetNullRefreshToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	FindByEmail(context.Context, *Email) (*FindUserResponse, error)
 	Create(context.Context, *RegisterRequest) (*emptypb.Empty, error)
-	Upsert(context.Context, *LoginWithGoogleRequest) (*User, error)
-	UpdateRefreshToken(context.Context, *RefreshToken) (*emptypb.Empty, error)
+	FindByEmail(context.Context, *Email) (*FindUserResponse, error)
 	FindByRefreshToken(context.Context, *RefreshToken) (*FindUserResponse, error)
+	Upsert(context.Context, *LoginWithGoogleRequest) (*User, error)
+	AddRefreshToken(context.Context, *AddRefreshToken) (*emptypb.Empty, error)
+	SetNullRefreshToken(context.Context, *RefreshToken) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -112,20 +125,23 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
+func (UnimplementedUserServiceServer) Create(context.Context, *RegisterRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
 func (UnimplementedUserServiceServer) FindByEmail(context.Context, *Email) (*FindUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindByEmail not implemented")
 }
-func (UnimplementedUserServiceServer) Create(context.Context, *RegisterRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedUserServiceServer) FindByRefreshToken(context.Context, *RefreshToken) (*FindUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindByRefreshToken not implemented")
 }
 func (UnimplementedUserServiceServer) Upsert(context.Context, *LoginWithGoogleRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upsert not implemented")
 }
-func (UnimplementedUserServiceServer) UpdateRefreshToken(context.Context, *RefreshToken) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRefreshToken not implemented")
+func (UnimplementedUserServiceServer) AddRefreshToken(context.Context, *AddRefreshToken) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddRefreshToken not implemented")
 }
-func (UnimplementedUserServiceServer) FindByRefreshToken(context.Context, *RefreshToken) (*FindUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindByRefreshToken not implemented")
+func (UnimplementedUserServiceServer) SetNullRefreshToken(context.Context, *RefreshToken) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetNullRefreshToken not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -138,24 +154,6 @@ type UnsafeUserServiceServer interface {
 
 func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 	s.RegisterService(&UserService_ServiceDesc, srv)
-}
-
-func _UserService_FindByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Email)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).FindByEmail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_FindByEmail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FindByEmail(ctx, req.(*Email))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _UserService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -176,38 +174,20 @@ func _UserService_Create_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_Upsert_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginWithGoogleRequest)
+func _UserService_FindByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Email)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).Upsert(ctx, in)
+		return srv.(UserServiceServer).FindByEmail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_Upsert_FullMethodName,
+		FullMethod: UserService_FindByEmail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Upsert(ctx, req.(*LoginWithGoogleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_UpdateRefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RefreshToken)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).UpdateRefreshToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_UpdateRefreshToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).UpdateRefreshToken(ctx, req.(*RefreshToken))
+		return srv.(UserServiceServer).FindByEmail(ctx, req.(*Email))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -230,6 +210,60 @@ func _UserService_FindByRefreshToken_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_Upsert_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginWithGoogleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).Upsert(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_Upsert_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).Upsert(ctx, req.(*LoginWithGoogleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AddRefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddRefreshToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddRefreshToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_AddRefreshToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddRefreshToken(ctx, req.(*AddRefreshToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_SetNullRefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshToken)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).SetNullRefreshToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_SetNullRefreshToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).SetNullRefreshToken(ctx, req.(*RefreshToken))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -238,24 +272,28 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Create",
+			Handler:    _UserService_Create_Handler,
+		},
+		{
 			MethodName: "FindByEmail",
 			Handler:    _UserService_FindByEmail_Handler,
 		},
 		{
-			MethodName: "Create",
-			Handler:    _UserService_Create_Handler,
+			MethodName: "FindByRefreshToken",
+			Handler:    _UserService_FindByRefreshToken_Handler,
 		},
 		{
 			MethodName: "Upsert",
 			Handler:    _UserService_Upsert_Handler,
 		},
 		{
-			MethodName: "UpdateRefreshToken",
-			Handler:    _UserService_UpdateRefreshToken_Handler,
+			MethodName: "AddRefreshToken",
+			Handler:    _UserService_AddRefreshToken_Handler,
 		},
 		{
-			MethodName: "FindByRefreshToken",
-			Handler:    _UserService_FindByRefreshToken_Handler,
+			MethodName: "SetNullRefreshToken",
+			Handler:    _UserService_SetNullRefreshToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

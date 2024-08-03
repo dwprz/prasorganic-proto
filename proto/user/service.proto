@@ -15,4 +15,5 @@ service UserService {
     rpc Create(user.type.RegisterRequest) returns (google.protobuf.Empty) {}
     rpc Upsert(user.type.LoginWithGoogleRequest) returns (user.type.User) {}
     rpc UpdateRefreshToken(user.type.RefreshToken) returns (google.protobuf.Empty) {}
+    rpc FindByRefreshToken(user.type.RefreshToken) returns (user.type.FindUserResponse) {}
 }

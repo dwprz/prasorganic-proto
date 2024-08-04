@@ -20,16 +20,16 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	OtpService_SendOtp_FullMethodName   = "/otp.OtpService/SendOtp"
-	OtpService_VerifyOtp_FullMethodName = "/otp.OtpService/VerifyOtp"
+	OtpService_Send_FullMethodName   = "/otp.OtpService/Send"
+	OtpService_Verify_FullMethodName = "/otp.OtpService/Verify"
 )
 
 // OtpServiceClient is the client API for OtpService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OtpServiceClient interface {
-	SendOtp(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	VerifyOtp(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
+	Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error)
 }
 
 type otpServiceClient struct {
@@ -40,20 +40,20 @@ func NewOtpServiceClient(cc grpc.ClientConnInterface) OtpServiceClient {
 	return &otpServiceClient{cc}
 }
 
-func (c *otpServiceClient) SendOtp(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *otpServiceClient) Send(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, OtpService_SendOtp_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, OtpService_Send_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *otpServiceClient) VerifyOtp(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error) {
+func (c *otpServiceClient) Verify(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*VerifyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(VerifyResponse)
-	err := c.cc.Invoke(ctx, OtpService_VerifyOtp_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, OtpService_Verify_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,8 +64,8 @@ func (c *otpServiceClient) VerifyOtp(ctx context.Context, in *VerifyRequest, opt
 // All implementations must embed UnimplementedOtpServiceServer
 // for forward compatibility
 type OtpServiceServer interface {
-	SendOtp(context.Context, *SendRequest) (*emptypb.Empty, error)
-	VerifyOtp(context.Context, *VerifyRequest) (*VerifyResponse, error)
+	Send(context.Context, *SendRequest) (*emptypb.Empty, error)
+	Verify(context.Context, *VerifyRequest) (*VerifyResponse, error)
 	mustEmbedUnimplementedOtpServiceServer()
 }
 
@@ -73,11 +73,11 @@ type OtpServiceServer interface {
 type UnimplementedOtpServiceServer struct {
 }
 
-func (UnimplementedOtpServiceServer) SendOtp(context.Context, *SendRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendOtp not implemented")
+func (UnimplementedOtpServiceServer) Send(context.Context, *SendRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Send not implemented")
 }
-func (UnimplementedOtpServiceServer) VerifyOtp(context.Context, *VerifyRequest) (*VerifyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyOtp not implemented")
+func (UnimplementedOtpServiceServer) Verify(context.Context, *VerifyRequest) (*VerifyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Verify not implemented")
 }
 func (UnimplementedOtpServiceServer) mustEmbedUnimplementedOtpServiceServer() {}
 
@@ -92,38 +92,38 @@ func RegisterOtpServiceServer(s grpc.ServiceRegistrar, srv OtpServiceServer) {
 	s.RegisterService(&OtpService_ServiceDesc, srv)
 }
 
-func _OtpService_SendOtp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OtpService_Send_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OtpServiceServer).SendOtp(ctx, in)
+		return srv.(OtpServiceServer).Send(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OtpService_SendOtp_FullMethodName,
+		FullMethod: OtpService_Send_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OtpServiceServer).SendOtp(ctx, req.(*SendRequest))
+		return srv.(OtpServiceServer).Send(ctx, req.(*SendRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OtpService_VerifyOtp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OtpService_Verify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VerifyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OtpServiceServer).VerifyOtp(ctx, in)
+		return srv.(OtpServiceServer).Verify(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OtpService_VerifyOtp_FullMethodName,
+		FullMethod: OtpService_Verify_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OtpServiceServer).VerifyOtp(ctx, req.(*VerifyRequest))
+		return srv.(OtpServiceServer).Verify(ctx, req.(*VerifyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -136,12 +136,12 @@ var OtpService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OtpServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendOtp",
-			Handler:    _OtpService_SendOtp_Handler,
+			MethodName: "Send",
+			Handler:    _OtpService_Send_Handler,
 		},
 		{
-			MethodName: "VerifyOtp",
-			Handler:    _OtpService_VerifyOtp_Handler,
+			MethodName: "Verify",
+			Handler:    _OtpService_Verify_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

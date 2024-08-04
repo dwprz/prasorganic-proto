@@ -8,7 +8,6 @@ package auth
 
 import (
 	context "context"
-	user "github.com/dwprz/prasorganic-proto/protogen/user"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -29,8 +28,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
-	SendOtp(ctx context.Context, in *user.SendOtpRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	VerifyOtp(ctx context.Context, in *user.VerifyOtpRequest, opts ...grpc.CallOption) (*user.VerifyOtpResponse, error)
+	SendOtp(ctx context.Context, in *SendOtpRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	VerifyOtp(ctx context.Context, in *VerifyOtpRequest, opts ...grpc.CallOption) (*VerifyOtpResponse, error)
 }
 
 type authServiceClient struct {
@@ -41,7 +40,7 @@ func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 	return &authServiceClient{cc}
 }
 
-func (c *authServiceClient) SendOtp(ctx context.Context, in *user.SendOtpRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *authServiceClient) SendOtp(ctx context.Context, in *SendOtpRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AuthService_SendOtp_FullMethodName, in, out, cOpts...)
@@ -51,9 +50,9 @@ func (c *authServiceClient) SendOtp(ctx context.Context, in *user.SendOtpRequest
 	return out, nil
 }
 
-func (c *authServiceClient) VerifyOtp(ctx context.Context, in *user.VerifyOtpRequest, opts ...grpc.CallOption) (*user.VerifyOtpResponse, error) {
+func (c *authServiceClient) VerifyOtp(ctx context.Context, in *VerifyOtpRequest, opts ...grpc.CallOption) (*VerifyOtpResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(user.VerifyOtpResponse)
+	out := new(VerifyOtpResponse)
 	err := c.cc.Invoke(ctx, AuthService_VerifyOtp_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -65,8 +64,8 @@ func (c *authServiceClient) VerifyOtp(ctx context.Context, in *user.VerifyOtpReq
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility
 type AuthServiceServer interface {
-	SendOtp(context.Context, *user.SendOtpRequest) (*emptypb.Empty, error)
-	VerifyOtp(context.Context, *user.VerifyOtpRequest) (*user.VerifyOtpResponse, error)
+	SendOtp(context.Context, *SendOtpRequest) (*emptypb.Empty, error)
+	VerifyOtp(context.Context, *VerifyOtpRequest) (*VerifyOtpResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -74,10 +73,10 @@ type AuthServiceServer interface {
 type UnimplementedAuthServiceServer struct {
 }
 
-func (UnimplementedAuthServiceServer) SendOtp(context.Context, *user.SendOtpRequest) (*emptypb.Empty, error) {
+func (UnimplementedAuthServiceServer) SendOtp(context.Context, *SendOtpRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendOtp not implemented")
 }
-func (UnimplementedAuthServiceServer) VerifyOtp(context.Context, *user.VerifyOtpRequest) (*user.VerifyOtpResponse, error) {
+func (UnimplementedAuthServiceServer) VerifyOtp(context.Context, *VerifyOtpRequest) (*VerifyOtpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyOtp not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
@@ -94,7 +93,7 @@ func RegisterAuthServiceServer(s grpc.ServiceRegistrar, srv AuthServiceServer) {
 }
 
 func _AuthService_SendOtp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(user.SendOtpRequest)
+	in := new(SendOtpRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -106,13 +105,13 @@ func _AuthService_SendOtp_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: AuthService_SendOtp_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).SendOtp(ctx, req.(*user.SendOtpRequest))
+		return srv.(AuthServiceServer).SendOtp(ctx, req.(*SendOtpRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _AuthService_VerifyOtp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(user.VerifyOtpRequest)
+	in := new(VerifyOtpRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -124,7 +123,7 @@ func _AuthService_VerifyOtp_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: AuthService_VerifyOtp_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).VerifyOtp(ctx, req.(*user.VerifyOtpRequest))
+		return srv.(AuthServiceServer).VerifyOtp(ctx, req.(*VerifyOtpRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

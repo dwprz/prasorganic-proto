@@ -7,7 +7,6 @@
 package auth
 
 import (
-	user "github.com/dwprz/prasorganic-proto/protogen/user"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -46,10 +45,10 @@ var file_proto_auth_service_proto_rawDesc = []byte{
 }
 
 var file_proto_auth_service_proto_goTypes = []any{
-	(*user.SendOtpRequest)(nil),    // 0: auth.type.SendOtpRequest
-	(*user.VerifyOtpRequest)(nil),  // 1: auth.type.VerifyOtpRequest
-	(*emptypb.Empty)(nil),          // 2: google.protobuf.Empty
-	(*user.VerifyOtpResponse)(nil), // 3: auth.type.VerifyOtpResponse
+	(*SendOtpRequest)(nil),    // 0: auth.type.SendOtpRequest
+	(*VerifyOtpRequest)(nil),  // 1: auth.type.VerifyOtpRequest
+	(*emptypb.Empty)(nil),     // 2: google.protobuf.Empty
+	(*VerifyOtpResponse)(nil), // 3: auth.type.VerifyOtpResponse
 }
 var file_proto_auth_service_proto_depIdxs = []int32{
 	0, // 0: auth.AuthService.SendOtp:input_type -> auth.type.SendOtpRequest
@@ -68,6 +67,7 @@ func file_proto_auth_service_proto_init() {
 	if File_proto_auth_service_proto != nil {
 		return
 	}
+	file_proto_auth_type_otp_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package auth.type;
+
+option go_package = "github.com/dwprz/prasorganic-proto/protogen/user";
+
+message SendOtpRequest {
+    string email = 1;
+}
+
+message VerifyOtpRequest {
+    string email = 1;
+    string otp = 2;
+}
+
+message VerifyOtpResponse {
+    bool valid = 1;
+}

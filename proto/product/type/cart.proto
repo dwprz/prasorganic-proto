@@ -10,6 +10,10 @@ message ProductCart {
     string image = 3;
     uint32 price = 4;
     uint32 stock = 5;
+    uint32 length = 6;
+    uint32 width = 7;
+    uint32 height = 8;
+    float weight = 9;
 }
 
 message ProductsCartResponse {

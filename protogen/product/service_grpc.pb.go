@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	ProductService_FindByProductIdsForCart_FullMethodName = "/product.ProductService/FindByProductIdsForCart"
+	ProductService_FindManyByIdsForCart_FullMethodName = "/product.ProductService/FindManyByIdsForCart"
 )
 
 // ProductServiceClient is the client API for ProductService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
-	FindByProductIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error)
+	FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error)
 }
 
 type productServiceClient struct {
@@ -37,10 +37,10 @@ func NewProductServiceClient(cc grpc.ClientConnInterface) ProductServiceClient {
 	return &productServiceClient{cc}
 }
 
-func (c *productServiceClient) FindByProductIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error) {
+func (c *productServiceClient) FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ProductsCartResponse)
-	err := c.cc.Invoke(ctx, ProductService_FindByProductIdsForCart_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ProductService_FindManyByIdsForCart_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *productServiceClient) FindByProductIdsForCart(ctx context.Context, in *
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility
 type ProductServiceServer interface {
-	FindByProductIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error)
+	FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -59,8 +59,8 @@ type ProductServiceServer interface {
 type UnimplementedProductServiceServer struct {
 }
 
-func (UnimplementedProductServiceServer) FindByProductIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindByProductIdsForCart not implemented")
+func (UnimplementedProductServiceServer) FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindManyByIdsForCart not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 
@@ -75,20 +75,20 @@ func RegisterProductServiceServer(s grpc.ServiceRegistrar, srv ProductServiceSer
 	s.RegisterService(&ProductService_ServiceDesc, srv)
 }
 
-func _ProductService_FindByProductIdsForCart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ProductService_FindManyByIdsForCart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ProductIds)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).FindByProductIdsForCart(ctx, in)
+		return srv.(ProductServiceServer).FindManyByIdsForCart(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProductService_FindByProductIdsForCart_FullMethodName,
+		FullMethod: ProductService_FindManyByIdsForCart_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).FindByProductIdsForCart(ctx, req.(*ProductIds))
+		return srv.(ProductServiceServer).FindManyByIdsForCart(ctx, req.(*ProductIds))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -101,8 +101,8 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ProductServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "FindByProductIdsForCart",
-			Handler:    _ProductService_FindByProductIdsForCart_Handler,
+			MethodName: "FindManyByIdsForCart",
+			Handler:    _ProductService_FindManyByIdsForCart_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

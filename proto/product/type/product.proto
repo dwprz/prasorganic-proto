@@ -5,5 +5,5 @@ package product.type;
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/product";
 
 message ProductIds {
-    repeated string ids = 1 [json_name = "ids"];
+    repeated uint32 ids = 1 [json_name = "ids"];
 }

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package product;
+
+import "proto/product/type/cart.proto";
+import "proto/product/type/product.proto";
+
+option go_package = "github.com/dwprz/prasorganic-proto/protogen/product";
+
+service ProductService {
+    rpc FindByProductIdsForCart(product.type.ProductIds) returns (product.type.ProductsCartResponse) {}
+}

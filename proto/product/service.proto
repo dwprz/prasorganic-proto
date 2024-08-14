@@ -4,9 +4,11 @@ package product;
 
 import "proto/product/type/cart.proto";
 import "proto/product/type/product.proto";
+import "google/protobuf/empty.proto";
 
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/product";
 
 service ProductService {
     rpc FindManyByIdsForCart(product.type.ProductIds) returns (product.type.ProductsCartResponse) {}
+    rpc UpdateStock(product.type.UpdateStockReq) returns (google.protobuf.Empty) {}
 }

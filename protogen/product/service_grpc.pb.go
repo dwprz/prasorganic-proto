@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -20,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion8
 
 const (
 	ProductService_FindManyByIdsForCart_FullMethodName = "/product.ProductService/FindManyByIdsForCart"
+	ProductService_UpdateStock_FullMethodName          = "/product.ProductService/UpdateStock"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -27,6 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
 	FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error)
+	UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type productServiceClient struct {
@@ -47,11 +50,22 @@ func (c *productServiceClient) FindManyByIdsForCart(ctx context.Context, in *Pro
 	return out, nil
 }
 
+func (c *productServiceClient) UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, ProductService_UpdateStock_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServiceServer is the server API for ProductService service.
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility
 type ProductServiceServer interface {
 	FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error)
+	UpdateStock(context.Context, *UpdateStockReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -61,6 +75,9 @@ type UnimplementedProductServiceServer struct {
 
 func (UnimplementedProductServiceServer) FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindManyByIdsForCart not implemented")
+}
+func (UnimplementedProductServiceServer) UpdateStock(context.Context, *UpdateStockReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStock not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 
@@ -93,6 +110,24 @@ func _ProductService_FindManyByIdsForCart_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductService_UpdateStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStockReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).UpdateStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProductService_UpdateStock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).UpdateStock(ctx, req.(*UpdateStockReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProductService_ServiceDesc is the grpc.ServiceDesc for ProductService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -103,6 +138,10 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindManyByIdsForCart",
 			Handler:    _ProductService_FindManyByIdsForCart_Handler,
+		},
+		{
+			MethodName: "UpdateStock",
+			Handler:    _ProductService_UpdateStock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

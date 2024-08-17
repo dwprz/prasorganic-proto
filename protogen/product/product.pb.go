@@ -154,7 +154,7 @@ func (x *ProductOrder) GetPrice() uint32 {
 	return 0
 }
 
-type UpdateStocksReq struct {
+type ReduceStocksReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -162,8 +162,8 @@ type UpdateStocksReq struct {
 	Data []*ProductOrder `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
 }
 
-func (x *UpdateStocksReq) Reset() {
-	*x = UpdateStocksReq{}
+func (x *ReduceStocksReq) Reset() {
+	*x = ReduceStocksReq{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_product_type_product_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -171,13 +171,13 @@ func (x *UpdateStocksReq) Reset() {
 	}
 }
 
-func (x *UpdateStocksReq) String() string {
+func (x *ReduceStocksReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateStocksReq) ProtoMessage() {}
+func (*ReduceStocksReq) ProtoMessage() {}
 
-func (x *UpdateStocksReq) ProtoReflect() protoreflect.Message {
+func (x *ReduceStocksReq) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_product_type_product_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -189,12 +189,12 @@ func (x *UpdateStocksReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateStocksReq.ProtoReflect.Descriptor instead.
-func (*UpdateStocksReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use ReduceStocksReq.ProtoReflect.Descriptor instead.
+func (*ReduceStocksReq) Descriptor() ([]byte, []int) {
 	return file_proto_product_type_product_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UpdateStocksReq) GetData() []*ProductOrder {
+func (x *ReduceStocksReq) GetData() []*ProductOrder {
 	if x != nil {
 		return x.Data
 	}
@@ -267,7 +267,7 @@ var file_proto_product_type_product_proto_rawDesc = []byte{
 	0x52, 0x08, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x69, 0x6d,
 	0x61, 0x67, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x69, 0x6d, 0x61, 0x67, 0x65,
 	0x12, 0x14, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0d, 0x52,
-	0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x22, 0x41, 0x0a, 0x0f, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x22, 0x41, 0x0a, 0x0f, 0x52, 0x65, 0x64, 0x75, 0x63, 0x65,
 	0x53, 0x74, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x12, 0x2e, 0x0a, 0x04, 0x64, 0x61, 0x74,
 	0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63,
 	0x74, 0x2e, 0x74, 0x79, 0x70, 0x65, 0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x4f, 0x72,
@@ -298,11 +298,11 @@ var file_proto_product_type_product_proto_msgTypes = make([]protoimpl.MessageInf
 var file_proto_product_type_product_proto_goTypes = []any{
 	(*ProductIds)(nil),        // 0: product.type.ProductIds
 	(*ProductOrder)(nil),      // 1: product.type.ProductOrder
-	(*UpdateStocksReq)(nil),   // 2: product.type.UpdateStocksReq
+	(*ReduceStocksReq)(nil),   // 2: product.type.ReduceStocksReq
 	(*RollbackStocksReq)(nil), // 3: product.type.RollbackStocksReq
 }
 var file_proto_product_type_product_proto_depIdxs = []int32{
-	1, // 0: product.type.UpdateStocksReq.data:type_name -> product.type.ProductOrder
+	1, // 0: product.type.ReduceStocksReq.data:type_name -> product.type.ProductOrder
 	1, // 1: product.type.RollbackStocksReq.data:type_name -> product.type.ProductOrder
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
@@ -342,7 +342,7 @@ func file_proto_product_type_product_proto_init() {
 			}
 		}
 		file_proto_product_type_product_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*UpdateStocksReq); i {
+			switch v := v.(*ReduceStocksReq); i {
 			case 0:
 				return &v.state
 			case 1:

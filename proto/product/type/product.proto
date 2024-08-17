@@ -17,7 +17,7 @@ message ProductOrder {
 	uint32 price = 7;
 }
 
-message UpdateStocksReq {
+message ReduceStocksReq {
     repeated ProductOrder data = 1;
 }
 

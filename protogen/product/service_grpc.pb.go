@@ -21,7 +21,8 @@ const _ = grpc.SupportPackageIsVersion8
 
 const (
 	ProductService_FindManyByIdsForCart_FullMethodName = "/product.ProductService/FindManyByIdsForCart"
-	ProductService_UpdateStock_FullMethodName          = "/product.ProductService/UpdateStock"
+	ProductService_UpdateStocks_FullMethodName         = "/product.ProductService/UpdateStocks"
+	ProductService_RollbackStocks_FullMethodName       = "/product.ProductService/RollbackStocks"
 )
 
 // ProductServiceClient is the client API for ProductService service.
@@ -29,7 +30,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
 	FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error)
-	UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateStocks(ctx context.Context, in *UpdateStocksReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RollbackStocks(ctx context.Context, in *RollbackStocksReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type productServiceClient struct {
@@ -50,10 +52,20 @@ func (c *productServiceClient) FindManyByIdsForCart(ctx context.Context, in *Pro
 	return out, nil
 }
 
-func (c *productServiceClient) UpdateStock(ctx context.Context, in *UpdateStockReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *productServiceClient) UpdateStocks(ctx context.Context, in *UpdateStocksReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, ProductService_UpdateStock_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ProductService_UpdateStocks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productServiceClient) RollbackStocks(ctx context.Context, in *RollbackStocksReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, ProductService_RollbackStocks_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +77,8 @@ func (c *productServiceClient) UpdateStock(ctx context.Context, in *UpdateStockR
 // for forward compatibility
 type ProductServiceServer interface {
 	FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error)
-	UpdateStock(context.Context, *UpdateStockReq) (*emptypb.Empty, error)
+	UpdateStocks(context.Context, *UpdateStocksReq) (*emptypb.Empty, error)
+	RollbackStocks(context.Context, *RollbackStocksReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -76,8 +89,11 @@ type UnimplementedProductServiceServer struct {
 func (UnimplementedProductServiceServer) FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindManyByIdsForCart not implemented")
 }
-func (UnimplementedProductServiceServer) UpdateStock(context.Context, *UpdateStockReq) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateStock not implemented")
+func (UnimplementedProductServiceServer) UpdateStocks(context.Context, *UpdateStocksReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStocks not implemented")
+}
+func (UnimplementedProductServiceServer) RollbackStocks(context.Context, *RollbackStocksReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RollbackStocks not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 
@@ -110,20 +126,38 @@ func _ProductService_FindManyByIdsForCart_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProductService_UpdateStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateStockReq)
+func _ProductService_UpdateStocks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStocksReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProductServiceServer).UpdateStock(ctx, in)
+		return srv.(ProductServiceServer).UpdateStocks(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ProductService_UpdateStock_FullMethodName,
+		FullMethod: ProductService_UpdateStocks_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServiceServer).UpdateStock(ctx, req.(*UpdateStockReq))
+		return srv.(ProductServiceServer).UpdateStocks(ctx, req.(*UpdateStocksReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductService_RollbackStocks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RollbackStocksReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).RollbackStocks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProductService_RollbackStocks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).RollbackStocks(ctx, req.(*RollbackStocksReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -140,8 +174,12 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ProductService_FindManyByIdsForCart_Handler,
 		},
 		{
-			MethodName: "UpdateStock",
-			Handler:    _ProductService_UpdateStock_Handler,
+			MethodName: "UpdateStocks",
+			Handler:    _ProductService_UpdateStocks_Handler,
+		},
+		{
+			MethodName: "RollbackStocks",
+			Handler:    _ProductService_RollbackStocks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

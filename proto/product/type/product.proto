@@ -13,6 +13,10 @@ message ProductData {
     uint32 quantity = 2;
 }
 
-message UpdateStockReq {
+message UpdateStocksReq {
+    repeated ProductData data = 1;
+}
+
+message RollbackStocksReq {
     repeated ProductData data = 1;
 }

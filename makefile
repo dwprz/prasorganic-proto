@@ -12,6 +12,7 @@ protoc-go:
 	./proto/user/*.proto ./proto/user/type/*.proto \
 	./proto/otp/*.proto ./proto/otp/type/*.proto \
 	./proto/product/*.proto ./proto/product/type/*.proto \
+	./proto/order/*.proto ./proto/order/type/*.proto \
 
 .PHONY: build
 build: clean protoc-go

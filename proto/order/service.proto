@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package order;
+
+import "proto/product/type/order.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/dwprz/prasorganic-proto/protogen/product";
+
+service OrderService {
+    rpc AddShippingId(order.type.AddShippingIdReq) returns (google.protobuf.Empty) {}
+}

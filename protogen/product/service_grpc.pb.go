@@ -29,7 +29,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProductServiceClient interface {
-	FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error)
+	FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartRes, error)
 	ReduceStocks(ctx context.Context, in *ReduceStocksReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RollbackStocks(ctx context.Context, in *RollbackStocksReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -42,9 +42,9 @@ func NewProductServiceClient(cc grpc.ClientConnInterface) ProductServiceClient {
 	return &productServiceClient{cc}
 }
 
-func (c *productServiceClient) FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartResponse, error) {
+func (c *productServiceClient) FindManyByIdsForCart(ctx context.Context, in *ProductIds, opts ...grpc.CallOption) (*ProductsCartRes, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ProductsCartResponse)
+	out := new(ProductsCartRes)
 	err := c.cc.Invoke(ctx, ProductService_FindManyByIdsForCart_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (c *productServiceClient) RollbackStocks(ctx context.Context, in *RollbackS
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility
 type ProductServiceServer interface {
-	FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error)
+	FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartRes, error)
 	ReduceStocks(context.Context, *ReduceStocksReq) (*emptypb.Empty, error)
 	RollbackStocks(context.Context, *RollbackStocksReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedProductServiceServer()
@@ -86,7 +86,7 @@ type ProductServiceServer interface {
 type UnimplementedProductServiceServer struct {
 }
 
-func (UnimplementedProductServiceServer) FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartResponse, error) {
+func (UnimplementedProductServiceServer) FindManyByIdsForCart(context.Context, *ProductIds) (*ProductsCartRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindManyByIdsForCart not implemented")
 }
 func (UnimplementedProductServiceServer) ReduceStocks(context.Context, *ReduceStocksReq) (*emptypb.Empty, error) {

@@ -16,6 +16,6 @@ message ProductCart {
     float weight = 9;
 }
 
-message ProductsCartResponse {
+message ProductsCartRes {
     repeated ProductCart data = 1;
 }

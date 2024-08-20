@@ -4,15 +4,15 @@ package otp.type;
 
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/otp";
 
-message SendRequest {
+message SendReq {
     string email = 1;
 }
 
-message VerifyRequest {
+message VerifyReq {
     string email = 1;
     string otp = 2;
 }
 
-message VerifyResponse {
+message VerifyRes {
     bool valid = 1;
 }

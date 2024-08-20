@@ -20,7 +20,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type SendRequest struct {
+type SendReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -28,8 +28,8 @@ type SendRequest struct {
 	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 }
 
-func (x *SendRequest) Reset() {
-	*x = SendRequest{}
+func (x *SendReq) Reset() {
+	*x = SendReq{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_otp_type_otp_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -37,13 +37,13 @@ func (x *SendRequest) Reset() {
 	}
 }
 
-func (x *SendRequest) String() string {
+func (x *SendReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SendRequest) ProtoMessage() {}
+func (*SendReq) ProtoMessage() {}
 
-func (x *SendRequest) ProtoReflect() protoreflect.Message {
+func (x *SendReq) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_otp_type_otp_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,19 +55,19 @@ func (x *SendRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SendRequest.ProtoReflect.Descriptor instead.
-func (*SendRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use SendReq.ProtoReflect.Descriptor instead.
+func (*SendReq) Descriptor() ([]byte, []int) {
 	return file_proto_otp_type_otp_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SendRequest) GetEmail() string {
+func (x *SendReq) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-type VerifyRequest struct {
+type VerifyReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -76,8 +76,8 @@ type VerifyRequest struct {
 	Otp   string `protobuf:"bytes,2,opt,name=otp,proto3" json:"otp,omitempty"`
 }
 
-func (x *VerifyRequest) Reset() {
-	*x = VerifyRequest{}
+func (x *VerifyReq) Reset() {
+	*x = VerifyReq{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_otp_type_otp_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -85,13 +85,13 @@ func (x *VerifyRequest) Reset() {
 	}
 }
 
-func (x *VerifyRequest) String() string {
+func (x *VerifyReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*VerifyRequest) ProtoMessage() {}
+func (*VerifyReq) ProtoMessage() {}
 
-func (x *VerifyRequest) ProtoReflect() protoreflect.Message {
+func (x *VerifyReq) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_otp_type_otp_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -103,26 +103,26 @@ func (x *VerifyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VerifyRequest.ProtoReflect.Descriptor instead.
-func (*VerifyRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use VerifyReq.ProtoReflect.Descriptor instead.
+func (*VerifyReq) Descriptor() ([]byte, []int) {
 	return file_proto_otp_type_otp_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *VerifyRequest) GetEmail() string {
+func (x *VerifyReq) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *VerifyRequest) GetOtp() string {
+func (x *VerifyReq) GetOtp() string {
 	if x != nil {
 		return x.Otp
 	}
 	return ""
 }
 
-type VerifyResponse struct {
+type VerifyRes struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -130,8 +130,8 @@ type VerifyResponse struct {
 	Valid bool `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
 }
 
-func (x *VerifyResponse) Reset() {
-	*x = VerifyResponse{}
+func (x *VerifyRes) Reset() {
+	*x = VerifyRes{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_otp_type_otp_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -139,13 +139,13 @@ func (x *VerifyResponse) Reset() {
 	}
 }
 
-func (x *VerifyResponse) String() string {
+func (x *VerifyRes) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*VerifyResponse) ProtoMessage() {}
+func (*VerifyRes) ProtoMessage() {}
 
-func (x *VerifyResponse) ProtoReflect() protoreflect.Message {
+func (x *VerifyRes) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_otp_type_otp_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -157,12 +157,12 @@ func (x *VerifyResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VerifyResponse.ProtoReflect.Descriptor instead.
-func (*VerifyResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use VerifyRes.ProtoReflect.Descriptor instead.
+func (*VerifyRes) Descriptor() ([]byte, []int) {
 	return file_proto_otp_type_otp_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *VerifyResponse) GetValid() bool {
+func (x *VerifyRes) GetValid() bool {
 	if x != nil {
 		return x.Valid
 	}
@@ -174,19 +174,18 @@ var File_proto_otp_type_otp_proto protoreflect.FileDescriptor
 var file_proto_otp_type_otp_proto_rawDesc = []byte{
 	0x0a, 0x18, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x6f, 0x74, 0x70, 0x2f, 0x74, 0x79, 0x70, 0x65,
 	0x2f, 0x6f, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x6f, 0x74, 0x70, 0x2e,
-	0x74, 0x79, 0x70, 0x65, 0x22, 0x23, 0x0a, 0x0b, 0x53, 0x65, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x22, 0x37, 0x0a, 0x0d, 0x56, 0x65, 0x72,
-	0x69, 0x66, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d,
-	0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c,
-	0x12, 0x10, 0x0a, 0x03, 0x6f, 0x74, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6f,
-	0x74, 0x70, 0x22, 0x26, 0x0a, 0x0e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x77, 0x70, 0x72, 0x7a, 0x2f, 0x70,
-	0x72, 0x61, 0x73, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x63, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x67, 0x65, 0x6e, 0x2f, 0x6f, 0x74, 0x70, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x79, 0x70, 0x65, 0x22, 0x1f, 0x0a, 0x07, 0x53, 0x65, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x12,
+	0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x65, 0x6d, 0x61, 0x69, 0x6c, 0x22, 0x33, 0x0a, 0x09, 0x56, 0x65, 0x72, 0x69, 0x66, 0x79, 0x52,
+	0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x10, 0x0a, 0x03, 0x6f, 0x74, 0x70, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6f, 0x74, 0x70, 0x22, 0x21, 0x0a, 0x09, 0x56, 0x65,
+	0x72, 0x69, 0x66, 0x79, 0x52, 0x65, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x42, 0x31, 0x5a,
+	0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x77, 0x70, 0x72,
+	0x7a, 0x2f, 0x70, 0x72, 0x61, 0x73, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x63, 0x2d, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x67, 0x65, 0x6e, 0x2f, 0x6f, 0x74, 0x70,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -203,9 +202,9 @@ func file_proto_otp_type_otp_proto_rawDescGZIP() []byte {
 
 var file_proto_otp_type_otp_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_proto_otp_type_otp_proto_goTypes = []any{
-	(*SendRequest)(nil),    // 0: otp.type.SendRequest
-	(*VerifyRequest)(nil),  // 1: otp.type.VerifyRequest
-	(*VerifyResponse)(nil), // 2: otp.type.VerifyResponse
+	(*SendReq)(nil),   // 0: otp.type.SendReq
+	(*VerifyReq)(nil), // 1: otp.type.VerifyReq
+	(*VerifyRes)(nil), // 2: otp.type.VerifyRes
 }
 var file_proto_otp_type_otp_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -222,7 +221,7 @@ func file_proto_otp_type_otp_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_proto_otp_type_otp_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*SendRequest); i {
+			switch v := v.(*SendReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -234,7 +233,7 @@ func file_proto_otp_type_otp_proto_init() {
 			}
 		}
 		file_proto_otp_type_otp_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*VerifyRequest); i {
+			switch v := v.(*VerifyReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -246,7 +245,7 @@ func file_proto_otp_type_otp_proto_init() {
 			}
 		}
 		file_proto_otp_type_otp_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*VerifyResponse); i {
+			switch v := v.(*VerifyRes); i {
 			case 0:
 				return &v.state
 			case 1:

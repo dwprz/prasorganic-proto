@@ -9,7 +9,7 @@ import "google/protobuf/empty.proto";
 option go_package = "github.com/dwprz/prasorganic-proto/protogen/product";
 
 service ProductService {
-    rpc FindManyByIdsForCart(product.type.ProductIds) returns (product.type.ProductsCartResponse) {}
+    rpc FindManyByIdsForCart(product.type.ProductIds) returns (product.type.ProductsCartRes) {}
     rpc ReduceStocks(product.type.ReduceStocksReq) returns (google.protobuf.Empty) {}
     rpc RollbackStocks(product.type.RollbackStocksReq) returns (google.protobuf.Empty) {}
 }

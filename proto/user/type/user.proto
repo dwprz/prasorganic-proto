@@ -19,6 +19,6 @@ message User {
     string role = 10;
 }
 
-message FindUserResponse {
+message FindUserRes {
     User data = 1;
 }

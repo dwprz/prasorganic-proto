@@ -8,7 +8,7 @@ message Email {
     string email = 1;
 }
 
-message RegisterRequest {
+message RegisterReq {
     string user_id = 1 [json_name = "user_id"];
     string email = 2;
     string full_name = 3 [json_name = "full_name"];
